@@ -4,3 +4,9 @@ C:\Users\sesa\documents\visual studio 2017\Projects\Compiler\Compiler\bin\Debug\
 C:\Users\sesa\documents\visual studio 2017\Projects\Compiler\Compiler\obj\Debug\Compiler.csprojResolveAssemblyReference.cache
 C:\Users\sesa\documents\visual studio 2017\Projects\Compiler\Compiler\obj\Debug\Compiler.exe
 C:\Users\sesa\documents\visual studio 2017\Projects\Compiler\Compiler\obj\Debug\Compiler.pdb
+C:\Users\sesa\Documents\Visual Studio 2017\Projects\CompilerGitRep\Compiler\Compiler\bin\Debug\Compiler.exe.config
+C:\Users\sesa\Documents\Visual Studio 2017\Projects\CompilerGitRep\Compiler\Compiler\bin\Debug\Compiler.exe
+C:\Users\sesa\Documents\Visual Studio 2017\Projects\CompilerGitRep\Compiler\Compiler\bin\Debug\Compiler.pdb
+C:\Users\sesa\Documents\Visual Studio 2017\Projects\CompilerGitRep\Compiler\Compiler\obj\Debug\Compiler.csprojResolveAssemblyReference.cache
+C:\Users\sesa\Documents\Visual Studio 2017\Projects\CompilerGitRep\Compiler\Compiler\obj\Debug\Compiler.exe
+C:\Users\sesa\Documents\Visual Studio 2017\Projects\CompilerGitRep\Compiler\Compiler\obj\Debug\Compiler.pdb

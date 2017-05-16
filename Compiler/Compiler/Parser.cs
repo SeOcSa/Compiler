@@ -26,7 +26,7 @@ namespace Compiler
 
         private void err(Token currentTkn, String stringToPrint)
         {
-            Console.WriteLine(stringToPrint + " at " + currentTkn + " line:" + currentTkn.Line + "\n");
+            Console.WriteLine(stringToPrint + " at  line: " + currentTkn.Line + "\n");
             
         }
 
@@ -35,9 +35,9 @@ namespace Compiler
             if (currentToken.TokenType.Equals(code))
             {
                 consumedToken = currentToken;
-                if (iterator[position+1] != null)
+                if (position+1<tokens.Count)
                 {
-                    currentToken = iterator[position + 1];
+                    currentToken = tokens[position + 1];
                     position++;
                 }
                 return true;
@@ -51,16 +51,16 @@ namespace Compiler
             while (true)
             {
                 int p = position;
-                List<Token> i = tokens.GetRange(position, tokens.Count);
+                List<Token> i = tokens.GetRange(position, tokens.Count-position);
                 if (declStruct()) { }
                 else
-                     if (p != position) { iterator = i; currentToken = i[position+1]; position = p; }
+                     if (p != position) { iterator = i; currentToken = i[1]; position = p; }
 
                 i = tokens.GetRange(position, tokens.Count - position);
                 p = position;
                 if (declVar()) { }
                 else
-                     if (p != position) { iterator = i; currentToken = i[position+1]; position = p; }
+                     if (p != position) { iterator = i; currentToken = i[1]; position = p; }
                 if (declFunc()) { }
                 else break;
             }
@@ -75,15 +75,15 @@ namespace Compiler
             //System.out.println("#declStruct " + currentToken.getCode());
             if (!(consume("STRUCT"))) return false;
             if (!(consume("ID"))) err(consumedToken, "missing ID after STRUCT");
-            if (!(consume("LACC"))) err(consumedToken, "missing ( after ID");
+            if (!(consume("LACC"))) err(consumedToken, "missing { after ID");
 
             while (true)
             {
                 if (declVar()) { }
                 else break;
             }
-            if (!(consume("RACC"))) err(consumedToken, "missing )");
-            if (!(consume("SEMICOLON"))) err(consumedToken, "missing ; after )");
+            if (!(consume("RACC"))) err(consumedToken, "missing }");
+            if (!(consume("SEMICOLON"))) err(consumedToken, "missing ; after }");
 
             return true;
         }
@@ -108,7 +108,7 @@ namespace Compiler
                     { if ((funcArg())) { } }
                     else break;
                 }
-            if (!(consume("RPAR"))) err(consumedToken, "missing RPAR");
+            if (!(consume("RPAR"))) err(consumedToken, "missing (");
             if (!stmCompound()) return false;
             return true;
         }
@@ -155,7 +155,7 @@ namespace Compiler
 
             expr();
 
-            if (!(consume("RBRACKET"))) err(consumedToken, "missing )");
+            if (!(consume("RBRACKET"))) err(consumedToken, "missing ]");
             return true;
         }
 
@@ -197,7 +197,7 @@ namespace Compiler
                 else if (stm()) { }
                 else break;
             }
-            if (!consume("RACC")) err(consumedToken, "missing RACC");
+            if (!consume("RACC")) err(consumedToken, "missing }");
             return true;
         }
 
@@ -213,9 +213,9 @@ namespace Compiler
             //System.out.println("#stm " + currentToken.getCode());
             if (consume("IF"))
             {
-                if (!consume("LPAR")) err(consumedToken, "missing LPAR");
+                if (!consume("LPAR")) err(consumedToken, "missing (");
                 if (!expr()) err(consumedToken, "missing expr");
-                if (!consume("RPAR")) err(consumedToken, "missing RPAR");
+                if (!consume("RPAR")) err(consumedToken, "missing )");
                 if (stm())
                 {
                     if (consume("ELSE"))
@@ -226,39 +226,39 @@ namespace Compiler
             }
             else if (consume("WHILE"))
             {
-                if (!consume("LPAR")) err(consumedToken, "missing LPAR");
+                if (!consume("LPAR")) err(consumedToken, "missing (");
                 if (!expr()) err(consumedToken, "missing expr");
-                if (!consume("RPAR")) err(consumedToken, "missing RPAR");
+                if (!consume("RPAR")) err(consumedToken, "missing )");
                 if (!stm()) return false;
                 else return true;
             }
             else if (consume("FOR"))
             {
-                if (!consume("LPAR")) err(consumedToken, "missing LPAR");
+                if (!consume("LPAR")) err(consumedToken, "missing (");
                 expr();
-                if (!consume("SEMICOLON")) err(consumedToken, "missing SEMICOLON");
+                if (!consume("SEMICOLON")) err(consumedToken, "missing ;");
                 expr();
-                if (!consume("SEMICOLON")) err(consumedToken, "missing SEMICOLON");
+                if (!consume("SEMICOLON")) err(consumedToken, "missing ;");
                 expr();
-                if (!consume("RPAR")) err(consumedToken, "missing RPAR");
+                if (!consume("RPAR")) err(consumedToken, "missing )");
                 if (!stm()) return false;
                 else return true;
             }
             else if (consume("BREAK"))
             {
-                if (!consume("SEMICOLON")) err(consumedToken, "missing SEMICOLON");
+                if (!consume("SEMICOLON")) err(consumedToken, "missing ;");
                 return true;
             }
             else if (consume("RETURN"))
             {
                 expr();
-                if (!consume("SEMICOLON")) err(consumedToken, "missing SEMICOLON");
+                if (!consume("SEMICOLON")) err(consumedToken, "missing ;");
                 return true;
             }
             else if (consume("SEMICOLON")) return true;
             else if (expr())
             {
-                if (!consume("SEMICOLON")) err(consumedToken, "missing SEMICOLON");
+                if (!consume("SEMICOLON")) err(consumedToken, "missing ;");
                 return true;
             }
             else if (stmCompound()) return true;
@@ -283,7 +283,7 @@ namespace Compiler
                 else
                 {
 
-                    if (p != position) { iterator = i; currentToken = i[position+1]; position = p; }
+                    if (p != position) { iterator = i; currentToken = i[0]; position = p; }
                 }
 
 
@@ -424,7 +424,7 @@ namespace Compiler
                     if (consume("RPAR")) //err(currentToken, "missing RPAR");
                         if (exprCast()) return true;
                         else return false;
-                    else err(currentToken, "missing RPAR");
+                    else err(currentToken, "missing )");
                 else return false;
             }
             return false;
@@ -492,7 +492,7 @@ namespace Compiler
                             else
                                     if (expr()) { }
                         }
-                    if (!consume("RPAR")) err(consumedToken, "missing RPAR");
+                    if (!consume("RPAR")) err(consumedToken, "missing )");
                 }
                 return true;
             }
@@ -504,10 +504,20 @@ namespace Compiler
             {
                 if (expr())
                     if (consume("RPAR")) return true;
-                    else err(consumedToken, "missing RPAR");
+                    else err(consumedToken, "missing )");
                 else err(consumedToken, "missing expr");
             }
             return false;
+        }
+
+        private List<Token> copyRange(int poz)
+        {
+            List<Token> newListOfTokens = new List<Token>();
+
+            for (int i = poz; i < tokens.Count; i++)
+                newListOfTokens.Add(tokens[i]);
+
+            return newListOfTokens;
         }
     }
 

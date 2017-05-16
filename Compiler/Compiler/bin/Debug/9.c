@@ -1,6 +1,6 @@
 struct Pt{
 	int x,y;
-	}
+	};
 
 struct Pt		points[20/4+5];
 
