@@ -75,7 +75,7 @@ namespace Compiler
             //System.out.println("#declStruct " + currentToken.getCode());
             if (!(consume("STRUCT"))) return false;
             if (!(consume("ID"))) err(consumedToken, "missing ID after STRUCT");
-            if (!(consume("LACC"))) err(consumedToken, "missing { after ID");
+            if (!(consume("LACC"))) err(consumedToken, "missing { after ID")
 
             while (true)
             {
